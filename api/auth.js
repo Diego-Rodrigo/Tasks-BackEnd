@@ -6,17 +6,17 @@ const bcrypt = require('bcrypt-nodejs')
 module.exports = app => {
     const signin = async(req, res) => {
         if(!req.body.email || !req.body.password) {
-            return res.status(400).send('Dados Incompleto!')
+            return res.status(400).send(' *** Dados Incompleto! ***')
         }
 
     const user = await app.db('users')
-        .where({email: req.body.email})
+        .whereRaw("LOWER(email) = LOWER(?)", req.body.email)
         .first()
     
     if(user){
         bcrypt.compare(req.body.password, user.password, (err, isMath) => {
             if(err || !isMath){
-                res.status(401).send('Senha Incorreta!')
+                res.status(401).send(' *** Senha Inválida! ***')
             }
 
             const payload = {id: user.id}
@@ -27,7 +27,7 @@ module.exports = app => {
             })
         })
     }else{
-        res.status(400).send('Usuario não cadastrado!')
+        res.status(400).send(' *** Usuario não cadastrado! ***')
     }
     
     }

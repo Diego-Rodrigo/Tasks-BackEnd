@@ -2,7 +2,7 @@ const moment = require('moment')
 
 module.exports = app => {
     const getTasks = (req, res) => {
-        const date = req.query.date ? req.query.date 
+        const date = req.query.date ? req.query.date
          : moment().endOf('day').toDate()
 
          app.db('tasks')
@@ -44,10 +44,10 @@ module.exports = app => {
         .catch(err => res.status(400).json(err))
     }
 
-    const updateTaksDoneAt = (req, res, doneAt) => {
+    const updateTaksDoneAt = (req, res, done_at) => {
         app.db('tasks')
         .where({ id: req.params.id, user_id: req.user.id})
-        .update({ doneAt })
+        .update({ done_at })
         .then(_ => res.status(204).send())
         .catch(err => res.status(400).json(err))
     }
@@ -62,12 +62,14 @@ module.exports = app => {
                 return res.status(400).json(msg)
             }
 
-            const doneAt = task.doneAt ? null : new Date()
-            updateTaksDoneAt(req, res, doneAt)
+            const done_at = task.done_at ? null : new Date()
+            updateTaksDoneAt(req, res, done_at)
+            console.log(done_at)
         })
 
         .catch(err => res.status(400).json(err))
     }
 
     return { getTasks, save, remove, toggleTask}
+    console.log({toggleTask})
 }
