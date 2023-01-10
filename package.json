@@ -19,7 +19,7 @@
     "knex": "^0.21.1",
     "moment": "^2.27.0",
     "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0",
+    "passport-jwt": "^4.0.1",
     "pg": "^8.2.1",
     "sqlite3": "^4.2.0"
   },
